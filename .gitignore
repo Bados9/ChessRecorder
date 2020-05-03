@@ -1,0 +1,5 @@
+# Project exclude paths
+/.gradle/
+/OpenCV/.cxx/
+/OpenCV/build/
+/OpenCV/build/intermediates/javac/debug/classes/

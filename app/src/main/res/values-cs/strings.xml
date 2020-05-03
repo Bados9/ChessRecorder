@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Chess Recorder</string>
+    <string name="btn_start_text">Začít nahrávat</string>
+    <string name="camera_feed_alt_text">Obrázek z kamery</string>
+    <string name="draw">Remíza</string>
+    <string name="unknown">Neznámý</string>
+    <string name="winner">Vítěz</string>
+    <string name="notes">Poznámky</string>
+    <string name="pgn">Šachová notace PGN</string>
+    <string name="game_title">Název hry</string>
+    <string name="white_player">Bílý hráč</string>
+    <string name="black_player">Černý hráč</string>
+    <string name="save_game">Uložit hru</string>
+    <string name="cancel">Zrušit</string>
+    <string name="white">Bílý</string>
+    <string name="black">Černý</string>
+</resources>
