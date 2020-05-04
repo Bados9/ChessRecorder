@@ -125,6 +125,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void startHelpActivity(View view){
+        Intent intent = new Intent(this, HelpActivity.class);
+        startActivity(intent);
+    }
+
     class GameListAdapter extends ArrayAdapter<String>{
         Context context;
         String[] mTitle;

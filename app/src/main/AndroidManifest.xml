@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".GameSaveActivity"></activity>
+        <activity android:name=".HelpActivity"></activity>
+        <activity android:name=".GameSaveActivity" />
         <activity android:name=".GameDetailActivity" />
         <activity
             android:name=".RecordingActivity"

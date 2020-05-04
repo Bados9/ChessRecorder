@@ -678,6 +678,9 @@ public class BoardRecognizer {
     }
 
     public ArrayList<Pair<Point, Point>> correctLines(ArrayList<Pair<Point, Point>> array, int direction){
+        if (array.size() < 6){
+            return array;
+        }
         if (direction == 0){ //horizontalni
             ArrayList<Double> distances = new ArrayList<>();
             ArrayList<Integer> forRemoval = new ArrayList<>();
