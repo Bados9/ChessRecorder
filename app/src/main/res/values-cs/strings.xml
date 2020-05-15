@@ -16,6 +16,15 @@
     <string name="cancel">Zrušit</string>
     <string name="white">Bílý</string>
     <string name="black">Černý</string>
+    <string name="picture">Obrázek</string>
+    <string name="help_title_main">Užívání aplikace</string>
+    <string name="delete">Odstranit</string>
+    <string name="help_title_recording">Jak nahrávat</string>
+    <string name="help_title_position">Pozice zařízení</string>
+    <string name="help_title_detection">Detekce šachovnice</string>
+    <string name="help_text_recording">Nejdřív udělejte tohleto a pak támhleto.</string>
+    <string name="help_text_position">Pozice zařízení musí být přibližně taková a maková.</string>
+    <string name="help_text_detection">Nejprve je to červené (obrázek nalevo), ale pak to zezelená (obrázek napravo).</string>
     <string name="some_text">
         <![CDATA[
 

@@ -23,8 +23,10 @@ import java.util.Random;
 import chess.jiruska.chessrecorder.GameWriter;
 
 import static java.lang.Math.abs;
+import static java.lang.Math.min;
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
+import static java.lang.StrictMath.max;
 import static org.opencv.calib3d.Calib3d.findHomography;
 import static org.opencv.imgproc.Imgproc.COLOR_BGR2GRAY;
 import static org.opencv.imgproc.Imgproc.Canny;
@@ -570,8 +572,22 @@ public class BoardRecognizer {
         int i = 0;
         for(Rect square: rectangleContours){
             i++;
-            square.x-=5;
-            square.width+=10;
+            square.x-=10;
+            square.width+=20;
+            square.height+=10;
+
+            if (i>32){
+                square.y-=square.height*0.8;
+                square.height*=1.8;
+            } else {
+                square.y-=square.height/2;
+                square.height*=1.5;
+            }
+
+            square.x = max(square.x, 0);
+            square.y = max(square.y, 0);
+            square.height = min(totalOriginal.height()-square.y, square.height);
+            square.width = min(totalOriginal.width()-square.x, square.width);
 
             Mat squareCut = totalOriginal.submat(square);
             result.add(squareCut);

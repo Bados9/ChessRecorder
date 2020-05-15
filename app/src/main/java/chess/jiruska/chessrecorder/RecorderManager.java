@@ -37,7 +37,7 @@ public class RecorderManager extends Thread{
     public void newState(byte[] image){
         Mat mat = Imgcodecs.imdecode(new MatOfByte(image), Imgcodecs.IMREAD_UNCHANGED);
         //Log.d("manager", "prijat obrazek");
-        GameWriter.saveImage(context, image);
+        //GameWriter.saveImage(context, image);
         if (currentState != null){
             previousState = currentState;
         }
@@ -54,7 +54,8 @@ public class RecorderManager extends Thread{
         if (previousState == null){
             return "";
         }
-        String move = MoveRecognizer.recognizeMove(previousState, currentState);
+        //String move = MoveRecognizer.recognizeMove(previousState, currentState);
+        String move = "aa";
         return move;
     }
 

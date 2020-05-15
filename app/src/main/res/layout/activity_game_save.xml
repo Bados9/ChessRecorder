@@ -6,83 +6,103 @@
     android:layout_height="match_parent"
     tools:context=".GameSaveActivity">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="vertical"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="0dp">
 
-        <TextView
-            android:id="@+id/titleLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/game_title" />
-
-        <EditText
-            android:id="@+id/editTextGameName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName" />
-
-        <TextView
-            android:id="@+id/whitePlayerLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/white_player" />
-
-        <EditText
-            android:id="@+id/editTextWhitePlayer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="@string/white" />
-
-        <TextView
-            android:id="@+id/blackPlayerLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/black_player" />
-
-        <EditText
-            android:id="@+id/editTextBlackPlayer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="@string/black" />
-
-        <TextView
-            android:id="@+id/winnerLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/winner" />
-
-        <Spinner
-            android:id="@+id/spinnerWinner"
-            android:layout_width="211dp"
-            android:layout_height="41dp"
-            android:spinnerMode="dropdown" />
-
-        <TextView
-            android:id="@+id/notesLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/notes" />
-
-        <EditText
-            android:id="@+id/editTextGameNotes"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:gravity="start|top"
-            android:inputType="textMultiLine" />
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/titleLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:labelFor="@id/editTextGameName"
+                android:text="@string/game_title"
+                android:textColor="#000000" />
+
+            <EditText
+                android:id="@+id/editTextGameName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName" />
+
+            <TextView
+                android:id="@+id/whitePlayerLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:labelFor="@id/editTextWhitePlayer"
+                android:text="@string/white_player"
+                android:textColor="#000000" />
+
+            <EditText
+                android:id="@+id/editTextWhitePlayer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
+                android:text="@string/white" />
+
+            <TextView
+                android:id="@+id/blackPlayerLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:labelFor="@id/editTextBlackPlayer"
+                android:text="@string/black_player"
+                android:textColor="#000000" />
+
+            <EditText
+                android:id="@+id/editTextBlackPlayer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
+                android:text="@string/black" />
+
+            <TextView
+                android:id="@+id/winnerLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/winner"
+                android:textColor="#000000" />
+
+            <Spinner
+                android:id="@+id/spinnerWinner"
+                android:layout_width="211dp"
+                android:layout_height="41dp"
+                android:spinnerMode="dropdown" />
+
+            <TextView
+                android:id="@+id/notesLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:labelFor="@id/editTextGameNotes"
+                android:text="@string/notes"
+                android:textColor="#000000" />
+
+            <EditText
+                android:id="@+id/editTextGameNotes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:gravity="start|top"
+                android:importantForAutofill="no"
+                android:inputType="textMultiLine" />
+
+        </LinearLayout>
+    </ScrollView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearLayout"

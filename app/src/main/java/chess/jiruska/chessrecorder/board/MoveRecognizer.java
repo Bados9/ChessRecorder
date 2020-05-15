@@ -40,6 +40,7 @@ public class MoveRecognizer {
 
     private static final String[] pieces = {"-", "", "N", "Q", "B", "K", "R"};
     private static final String[] letters = {"a", "b", "c", "d", "e", "f", "g", "h"};
+
     private static String buildNotation(int dest, int type){
         String notation = "";
         notation = notation.concat(pieces[type]);

@@ -16,6 +16,15 @@
     <string name="cancel">Cancel</string>
     <string name="white">White</string>
     <string name="black">Black</string>
+    <string name="picture">Image</string>
+    <string name="delete">Delete</string>
+    <string name="help_title_main">Application usage</string>
+    <string name="help_title_recording">How to record</string>
+    <string name="help_title_position">Device position</string>
+    <string name="help_title_detection">Chessboard detection</string>
+    <string name="help_text_recording"></string>
+    <string name="help_text_position"></string>
+    <string name="help_text_detection"></string>
     <string name="some_text">
         <![CDATA[
 

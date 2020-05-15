@@ -57,6 +57,10 @@ public class GameWriter implements Serializable {
                     "[White \"" + white + "\"]\n" +
                     "[Black \"" + black + "\"]\n" +
                     "[Result \"" + winner + "\"]\n" +
+                    "[Result \"" + winner + "\"]\n" +
+                    "[Result \"" + winner + "\"]\n" +
+                    "[Result \"" + winner + "\"]\n" +
+                    "[Result \"" + winner + "\"]\n" +
                     "{" + notes + "}\n\n" +
                     moves).getBytes());
             file.close();

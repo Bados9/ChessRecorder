@@ -34,7 +34,7 @@ import static org.opencv.imgproc.Imgproc.resize;
 
 public class ChessboardBuilder {
 
-    private final int IMG_SIZE = 80;
+    private final int IMG_SIZE = 100;
 
     private Classifier classifier;
 
@@ -86,7 +86,7 @@ public class ChessboardBuilder {
 
         //TODO kontrola spravnosti - porovnani s minulym stavem a upravy
 
-        //System.out.println(board);
+        System.out.println(board);
 
         return board;
     }
@@ -116,7 +116,7 @@ public class ChessboardBuilder {
     }
 
     private MappedByteBuffer loadModelFile(Context c) throws IOException {
-        AssetFileDescriptor fileDescriptor = c.getAssets().openFd("7-chessnet5-2board.tflite");
+        AssetFileDescriptor fileDescriptor = c.getAssets().openFd("small-board-only.tflite");
         FileInputStream inputStream = new FileInputStream(fileDescriptor.getFileDescriptor());
         FileChannel fileChannel = inputStream.getChannel();
         long startOffset = fileDescriptor.getStartOffset();
