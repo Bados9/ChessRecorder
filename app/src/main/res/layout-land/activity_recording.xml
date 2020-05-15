@@ -6,6 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".RecordingActivity">
 
+    <ImageButton
+        android:id="@+id/recordButton"
+        android:layout_width="56dp"
+        android:layout_height="338dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/picture"
+        android:elevation="2dp"
+        android:paddingHorizontal="5dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/rec_btn_start"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextureView
         android:id="@+id/textureView"
         android:layout_width="0dp"
@@ -39,19 +53,5 @@
         app:layout_constraintStart_toEndOf="@+id/textView"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/template_red" />
-
-    <ImageButton
-        android:id="@+id/recordButton"
-        android:layout_width="100dp"
-        android:layout_height="match_parent"
-        android:background="@android:color/transparent"
-        android:contentDescription="@string/picture"
-        android:elevation="2dp"
-        android:paddingHorizontal="5dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/rec_btn_start"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

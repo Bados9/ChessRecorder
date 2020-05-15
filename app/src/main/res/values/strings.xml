@@ -18,6 +18,11 @@
     <string name="black">Black</string>
     <string name="picture">Image</string>
     <string name="delete">Delete</string>
+    <string name="delete_game_prompt">Are you sure you want to delete this recording?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="game_deleted">Recording succesfully deleted.</string>
+    <string name="game_delete_error">Error while deleting recording.</string>
     <string name="help_title_main">Application usage</string>
     <string name="help_title_recording">How to record</string>
     <string name="help_title_position">Device position</string>

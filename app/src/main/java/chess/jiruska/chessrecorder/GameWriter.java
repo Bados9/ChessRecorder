@@ -51,15 +51,12 @@ public class GameWriter implements Serializable {
         }
 
         String date = new SimpleDateFormat("yyyy.MM.dd", Locale.getDefault()).format(new Date());
+        date = "1.1.2020";
         try {
             file.write(("[Event \"" + title + "\"]\n" +
                     "[Date \"" + date + "\"]\n" +
                     "[White \"" + white + "\"]\n" +
                     "[Black \"" + black + "\"]\n" +
-                    "[Result \"" + winner + "\"]\n" +
-                    "[Result \"" + winner + "\"]\n" +
-                    "[Result \"" + winner + "\"]\n" +
-                    "[Result \"" + winner + "\"]\n" +
                     "[Result \"" + winner + "\"]\n" +
                     "{" + notes + "}\n\n" +
                     moves).getBytes());

@@ -2,6 +2,7 @@ package chess.jiruska.chessrecorder;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringDef;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -50,7 +51,8 @@ public class MainActivity extends AppCompatActivity {
 
     private ListView listView;
     private String[] files;
-    private GameListAdapter gameListAdapter;
+    private ArrayList<String> filesArray;
+    private GameListAdapter2 gameListAdapter;
     private AlertDialog deleteGameAlert;
     static{ System.loadLibrary("opencv_java4"); }
     private String gameToBeDeleted;
@@ -64,16 +66,14 @@ public class MainActivity extends AppCompatActivity {
         files = fileList();
 
         files = Arrays.stream(files).filter(s -> s.contains("game")).toArray(String[]::new);
-        System.out.println("titles " +files.length);
+        filesArray = new ArrayList<>(Arrays.asList(files));
+        gameListAdapter = new GameListAdapter2(this, filesArray);
 
-        String[] descriptions = {"a", "b", "c","d","e","f","a", "b", "c","d","e","f"};
-
-        gameListAdapter = new GameListAdapter(this, files, descriptions);
         listView.setAdapter(gameListAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                showGameDetail(files[position]);
+                showGameDetail(gameListAdapter.titles.get(position));
             }
         });
         createDeleteAlert();
@@ -82,14 +82,14 @@ public class MainActivity extends AppCompatActivity {
     private void createDeleteAlert(){
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle(R.string.app_name);
-        builder.setMessage("Opravdu chcete hru vymazat?"); //TODO vsude vylepsit texty a preklady
-        builder.setPositiveButton("Ano", new DialogInterface.OnClickListener() {
+        builder.setMessage(R.string.delete_game_prompt); //TODO vsude vylepsit texty a preklady
+        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.dismiss();
                 deleteGame();
             }
         });
-        builder.setNegativeButton("Ne", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.dismiss();
             }
@@ -101,11 +101,13 @@ public class MainActivity extends AppCompatActivity {
         File f = new File(getApplicationContext().getFilesDir().getAbsolutePath() + "/" + gameToBeDeleted);
         if (f.exists()){
             if (f.delete()){
-                Toast.makeText(getApplicationContext(), "Hra uspesne vymazana", Toast.LENGTH_SHORT).show(); //TODO prelozit
+                Toast.makeText(getApplicationContext(), R.string.game_deleted, Toast.LENGTH_SHORT).show();
+                gameListAdapter.remove(gameToBeDeleted);
+                gameListAdapter.notifyDataSetChanged();
                 return;
             }
         }
-        Toast.makeText(getApplicationContext(), "Chyba pri mazani hry", Toast.LENGTH_SHORT).show(); //TODO prelozit
+        Toast.makeText(getApplicationContext(), R.string.game_delete_error, Toast.LENGTH_SHORT).show();
     }
 
     public void showGameDetail(String filename){
@@ -121,8 +123,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startRecordingActivity(View view){
-        Intent intent = new Intent(this, RecordingActivity.class);
-        startActivity(intent);
+        boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
+                .getBoolean("isFirstRun", true);
+
+        if (isFirstRun) {
+            startActivity(new Intent(MainActivity.this, HelpActivity.class));
+        } else {
+            Intent intent = new Intent(this, RecordingActivity.class);
+            startActivity(intent);
+        }
+
+
+        getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
+                .putBoolean("isFirstRun", false).apply();
+
     }
 
     public void startHelpActivity(View view){
@@ -130,24 +144,22 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    class GameListAdapter extends ArrayAdapter<String>{
+    class GameListAdapter2 extends ArrayAdapter<String>{
         Context context;
-        String[] mTitle;
-        String[] mDescription;
-        String[] titles;
+        ArrayList<String> mTitle;
+        ArrayList<String> mDescription;
+        ArrayList<String> titles;
 
-        GameListAdapter (Context c, String[] titles, String[] descriptions){
+        GameListAdapter2 (Context c, ArrayList<String> titles){
             super(c, R.layout.row, R.id.textViewMain, titles);
 
-            String[] names = new String[titles.length];
-            String[] dates = new String[titles.length];
-            int index = 0;
+            ArrayList<String> names = new ArrayList<>();
+            ArrayList<String> dates = new ArrayList<>();
             for (String title: titles) {
                 GameReader reader = new GameReader(getApplicationContext());
                 reader.readBasicInfo(title);
-                names[index] = reader.getName();
-                dates[index] = reader.getDate();
-                index++;
+                names.add(reader.getName());
+                dates.add(reader.getDate());
             }
             this.titles = titles;
             this.context = c;
@@ -163,16 +175,39 @@ public class MainActivity extends AppCompatActivity {
             TextView mainTitle = row.findViewById(R.id.textViewMain);
             TextView description = row.findViewById(R.id.textViewSub);
             ImageButton deleteBtn = row.findViewById(R.id.deleteGameBtn);
-            mainTitle.setText(mTitle[position]);
-            description.setText(mDescription[position]);
+            mainTitle.setText(mTitle.get(position));
+            description.setText(mDescription.get(position));
             deleteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     deleteGameAlert.show();
-                    gameToBeDeleted = titles[position];
+                    gameToBeDeleted = titles.get(position);
                 }
             });
             return row;
+        }
+
+        @Override
+        public void remove(@Nullable String object) {
+            int removeIndex = this.titles.indexOf(object);
+            this.titles.remove(object);
+            this.mTitle.remove(removeIndex);
+            this.mDescription.remove(removeIndex);
+        }
+
+        @Override
+        public void notifyDataSetChanged() {
+            ArrayList<String> names = new ArrayList<>();
+            ArrayList<String> dates = new ArrayList<>();
+            for (String title: titles) {
+                GameReader reader = new GameReader(getApplicationContext());
+                reader.readBasicInfo(title);
+                names.add(reader.getName());
+                dates.add(reader.getDate());
+            }
+            this.mTitle = names;
+            this.mDescription = dates;
+            super.notifyDataSetChanged();
         }
     }
 }

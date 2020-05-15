@@ -19,6 +19,11 @@
     <string name="picture">Obrázek</string>
     <string name="help_title_main">Užívání aplikace</string>
     <string name="delete">Odstranit</string>
+    <string name="delete_game_prompt">Opravdu chcete odstranit tento záznam?</string>
+    <string name="yes">Ano</string>
+    <string name="no">Ne</string>
+    <string name="game_deleted">Záznam úspěšně vymazán.</string>
+    <string name="game_delete_error">Při odstraňování hry došlo k chybě.</string>
     <string name="help_title_recording">Jak nahrávat</string>
     <string name="help_title_position">Pozice zařízení</string>
     <string name="help_title_detection">Detekce šachovnice</string>
