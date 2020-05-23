@@ -123,6 +123,14 @@ public class GameReader {
                 }
             }
 
+            StringBuilder builder = new StringBuilder();
+            String line;
+            while ((line = br.readLine()) != null) {
+                builder.append(line);
+                builder.append('\n');
+            }
+            moves = builder.toString();
+
         } catch (IOException e) {
             e.printStackTrace();
         }

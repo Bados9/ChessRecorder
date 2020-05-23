@@ -413,7 +413,6 @@ public class RecordingActivity extends AppCompatActivity {
             @Override
             public void run() {
                 lockFocus();
-                //System.out.println("Vola se manager getMove");
                 if (manager.isBoardDetected()){
                     if (templateColor == COLOR_RED){
                         templateColor = COLOR_GREEN;
@@ -421,10 +420,6 @@ public class RecordingActivity extends AppCompatActivity {
                         templateWindow.setImageResource(R.drawable.template_green);
                         delay = 5000;
                     }
-                    //System.out.println("zmenit barvu na zelenou");
-                    String move = manager.getMove();
-                    textView.append("\n"+move);
-                    writer.writeMove(move);
                     handler.postDelayed(this, delay);
                 } else {
                     if (templateColor == COLOR_GREEN){
@@ -432,7 +427,6 @@ public class RecordingActivity extends AppCompatActivity {
                         templateWindow.setImageResource(R.drawable.template_red);
                         delay = 1000;
                     }
-                    //System.out.println("nechat cervene");
                     handler.postDelayed(this, delay);
                 }
             }
@@ -468,6 +462,11 @@ public class RecordingActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     manager.newState(bytes);
+                    String move = manager.getMove();
+                    if (!move.equals("")){
+                        textView.append("\n"+move);
+                        writer.writeMove(move);
+                    }
                 }
             });
             image.close();

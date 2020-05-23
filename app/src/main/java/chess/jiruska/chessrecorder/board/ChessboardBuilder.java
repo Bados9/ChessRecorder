@@ -73,6 +73,7 @@ public class ChessboardBuilder {
             }
 
             float[][] output = new float[1][13];
+            //float[][] output = new float[1][2];
             tflite.run(pixels2D, output);
 
             //System.out.println(Arrays.deepToString(output));
@@ -86,7 +87,7 @@ public class ChessboardBuilder {
 
         //TODO kontrola spravnosti - porovnani s minulym stavem a upravy
 
-        System.out.println(board);
+        //System.out.println(board);
 
         return board;
     }
@@ -116,7 +117,7 @@ public class ChessboardBuilder {
     }
 
     private MappedByteBuffer loadModelFile(Context c) throws IOException {
-        AssetFileDescriptor fileDescriptor = c.getAssets().openFd("small-board-only.tflite");
+        AssetFileDescriptor fileDescriptor = c.getAssets().openFd("sb2-net.tflite");
         FileInputStream inputStream = new FileInputStream(fileDescriptor.getFileDescriptor());
         FileChannel fileChannel = inputStream.getChannel();
         long startOffset = fileDescriptor.getStartOffset();

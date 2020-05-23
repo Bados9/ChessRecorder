@@ -5,6 +5,8 @@ import android.util.Pair;
 public class Chessboard {
     //private String[] pieces_string = {"BB", "BE", "BK", "BN", "BP", "BQ", "BR", "WB", "WE", "WK", "WN", "WP", "WQ", "WR"};
     private String[] pieces_string = {"BB", "BK", "BN", "BP", "BQ", "BR", "E", "WB", "WK", "WN", "WP", "WQ", "WR"};
+    //private String[] pieces_string = {"BI", "E", "KI", "KN", "PA", "QU", "RO"};
+    //private String[] pieces_string = {"E", "N"};
 
     private int[] board;
 

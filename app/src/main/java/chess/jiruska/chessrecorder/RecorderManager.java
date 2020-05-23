@@ -40,9 +40,13 @@ public class RecorderManager extends Thread{
         //GameWriter.saveImage(context, image);
         if (currentState != null){
             previousState = currentState;
+            Log.d("aaa", "nastavuju");
+            //Log.d("aaa", previousState.toString());
         }
         //System.out.println("newState ... vlakno id = " + Thread.currentThread().getId());
         currentState = recognizer.processFrame(context, mat);
+            Log.d("aaa", "novy...");
+            //Log.d("aaa", currentState.toString());
         if (currentState != null){
             boardDetected = true;
         } else {
@@ -51,11 +55,10 @@ public class RecorderManager extends Thread{
     }
 
     public String getMove(){
-        if (previousState == null){
+        if (previousState == null || currentState == null){
             return "";
         }
-        //String move = MoveRecognizer.recognizeMove(previousState, currentState);
-        String move = "aa";
+        String move = MoveRecognizer.recognizeMove(previousState, currentState);
         return move;
     }
 

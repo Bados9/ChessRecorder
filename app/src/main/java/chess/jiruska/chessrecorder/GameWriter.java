@@ -27,9 +27,11 @@ public class GameWriter implements Serializable {
     private String moves;
     private UUID identifier;
     private Context context;
+    private int currentMoveNumber;
 
     public GameWriter(Context context){
         moves = "";
+        currentMoveNumber = 2;
     }
 
     public GameWriter(Context context, String moves){
@@ -38,7 +40,12 @@ public class GameWriter implements Serializable {
     }
 
     public void writeMove(String move){
-        moves = moves.concat(" " + move);
+        if (currentMoveNumber % 2 == 0){
+            moves = moves.concat(" " + currentMoveNumber/2 + ". " + move);
+        } else {
+            moves = moves.concat(" " + move);
+        }
+        currentMoveNumber += 1;
         Log.d("writer", "move " + move + " written");
     }
 

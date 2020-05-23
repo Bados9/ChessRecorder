@@ -3,7 +3,6 @@ package chess.jiruska.chessrecorder.board;
 import android.util.Pair;
 
 import java.util.Arrays;
-import java.util.Random;
 
 public class MoveRecognizer {
     public static String recognizeMove(Chessboard previousState, Chessboard currentState){
@@ -12,12 +11,16 @@ public class MoveRecognizer {
         int[] ps = previousState.getBoard();
         int[] cs = currentState.getBoard();
 
+        System.out.println("llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll");
+        System.out.println(Arrays.toString(ps));
+        System.out.println(Arrays.toString(cs));
+        System.out.println("llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll");
+
         if (Arrays.equals(ps, cs)){
-            return "";
+            return "X";
         }
 
         int[] checkStatus = checkSamePositions(ps, cs);
-
 
         //TODO typy figurek jsou z neuronky 0-13...potrebuju mit jen 0-7 a volne policko
 
@@ -32,21 +35,22 @@ public class MoveRecognizer {
                     System.out.println("current Position = " + pos);
                     System.out.println("fig type = " + ps[i]);
                     System.out.println(buildNotation(pos, ps[i]));
+                    return buildNotation(pos, ps[i]);
                 }
             }
         }
         return move;
     }
 
-    private static final String[] pieces = {"-", "", "N", "Q", "B", "K", "R"};
+    private static final String[] pieces = {"-", "", "K", "Q", "B", "N", "R", "", "K", "Q", "B", "N", "R"};
     private static final String[] letters = {"a", "b", "c", "d", "e", "f", "g", "h"};
 
     private static String buildNotation(int dest, int type){
         String notation = "";
         notation = notation.concat(pieces[type]);
         Pair<Integer, Integer> coords = Chessboard.as2D(dest);
-        notation = notation.concat(letters[coords.first]);
-        notation = notation.concat(Integer.toString(coords.second+1));
+        notation = notation.concat(letters[coords.second]);
+        notation = notation.concat(Integer.toString(coords.first+1));
         return notation;
     }
 

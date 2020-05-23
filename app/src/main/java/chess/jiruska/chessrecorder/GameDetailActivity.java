@@ -3,9 +3,13 @@ package chess.jiruska.chessrecorder;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -22,6 +26,7 @@ public class GameDetailActivity extends AppCompatActivity {
     private TextView pgnView;
     private TextView winnerLabel;
     private GameReader reader;
+    private String file;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +40,7 @@ public class GameDetailActivity extends AppCompatActivity {
         if(bundle != null){
             filename = bundle.getString("filename");
         }
+        file = filename;
 
         reader = new GameReader(getApplicationContext());
         reader.readFile(filename);
@@ -101,5 +107,13 @@ public class GameDetailActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return ret;
+    }
+
+    public void copyToClipboard(View view){
+        String moves = reader.getMoves();
+        System.out.println(moves);
+        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("PGN", moves);
+        clipboard.setPrimaryClip(clip);
     }
 }
