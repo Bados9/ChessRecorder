@@ -11,46 +11,51 @@ public class MoveRecognizer {
         int[] ps = previousState.getBoard();
         int[] cs = currentState.getBoard();
 
-        System.out.println("llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll");
-        System.out.println(Arrays.toString(ps));
-        System.out.println(Arrays.toString(cs));
-        System.out.println("llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll");
-
         if (Arrays.equals(ps, cs)){
-            return "X";
+            return "";
         }
 
         int[] checkStatus = checkSamePositions(ps, cs);
-
-        //TODO typy figurek jsou z neuronky 0-13...potrebuju mit jen 0-7 a volne policko
-
 
         //provadeni korekci
 
         for (int i=0; i<64; i++){
             if (checkStatus[i] == 0){
-                if(ps[i] != 0){ //policko nebylo prazdne
+                if(ps[i] != 6){ //policko nebylo prazdne
                     int pos = findCurrentPosition(ps[i], checkStatus, cs);
-                    System.out.println("previous Position = " + i);
-                    System.out.println("current Position = " + pos);
-                    System.out.println("fig type = " + ps[i]);
-                    System.out.println(buildNotation(pos, ps[i]));
-                    return buildNotation(pos, ps[i]);
+                    if (pos == -1){
+                        continue;
+                    }
+                    //System.out.println("previous Position = " + i);
+                    //System.out.println("current Position = " + pos);
+                    //System.out.println("fig type = " + ps[i]);
+                    if (isMovePossible(i, pos, ps[i])) {
+                        //System.out.println(buildNotation(pos, ps[i]));
+                        if (ps[pos] != 6){
+                            return buildNotation(pos, ps[i], true);
+                        } else {
+                            return buildNotation(pos, ps[i], false);
+                        }
+                    }
                 }
             }
         }
         return move;
     }
 
-    private static final String[] pieces = {"-", "", "K", "Q", "B", "N", "R", "", "K", "Q", "B", "N", "R"};
+    private static final String[] pieces = {"B", "K", "N", "P", "Q", "R", "-", "B", "K", "N", "P", "Q", "R"};
     private static final String[] letters = {"a", "b", "c", "d", "e", "f", "g", "h"};
 
-    private static String buildNotation(int dest, int type){
+    private static String buildNotation(int dest, int type, boolean take){
         String notation = "";
         notation = notation.concat(pieces[type]);
         Pair<Integer, Integer> coords = Chessboard.as2D(dest);
+        if (take){
+            notation = notation.concat("x");
+        }
         notation = notation.concat(letters[coords.second]);
         notation = notation.concat(Integer.toString(coords.first+1));
+
         return notation;
     }
 
@@ -72,11 +77,11 @@ public class MoveRecognizer {
         for (int i = 0; i<64; i++) {
             if (cs[i] == ps[i]){
                 checkStatus[i] = 1;
-                System.out.println("Checked index " + i);
-                System.out.println("Current checkStatus: " + Arrays.toString(checkStatus));
+                //System.out.println("Checked index " + i);
+                //System.out.println("Current checkStatus: " + Arrays.toString(checkStatus));
                 continue;
             }
-            System.out.println("some move detected on index " + i);
+            //System.out.println("some move detected on index " + i);
         }
         return checkStatus;
     }
@@ -85,22 +90,48 @@ public class MoveRecognizer {
         boolean ret = false;
         Pair<Integer, Integer> startPos = Chessboard.as2D(start);
         Pair<Integer, Integer> endPos = Chessboard.as2D(end);
+
+        int dFirst = Math.abs(startPos.first - endPos.first);
+        int dSecond = Math.abs(startPos.second - endPos.second);
+
         switch (type){
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
-            case 5:
-                break;
-            case 6:
-                if (startPos.first.equals(endPos.first) | startPos.second.equals(endPos.second)){
+            case 0: case 7:
+                if (dFirst == dSecond){
                     ret = true;
                 }
                 break;
+            case 1: case 8:
+                if (dFirst <= 1 && dSecond <= 1){
+                    ret = true;
+                }
+                break;
+            case 2: case 9:
+                if ((dFirst == 1 && dSecond == 2) || (dFirst == 2 && dSecond == 1)){
+                    ret = true;
+                }
+                break;
+            case 3:
+                if (((startPos.first > endPos.first) && dFirst <= 2) || dSecond <= 1){
+                    ret = true;
+                }
+                break;
+            case 10:
+                if (((startPos.first < endPos.first) && dFirst <= 2) || dSecond <=1){
+                    ret = true;
+                }
+                break;
+            case 4: case 11:
+                if (dFirst == dSecond || startPos.first.equals(endPos.first) || startPos.second.equals(endPos.second)){
+                    ret = true;
+                }
+                break;
+            case 5: case 12:
+                if (startPos.first.equals(endPos.first) || startPos.second.equals(endPos.second)){
+                    ret = true;
+                }
+                break;
+            default:
+                ret = false;
         }
         return ret;
     }

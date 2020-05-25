@@ -1,57 +1,29 @@
 package chess.jiruska.chessrecorder;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.StringDef;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.renderscript.ScriptGroup;
-import android.util.Log;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.attribute.BasicFileAttributes;
-import java.nio.file.attribute.FileTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-
-import chess.jiruska.chessrecorder.classification.Classifier;
-import chess.jiruska.chessrecorder.classification.TensorFlowClassifier;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ListView listView;
-    private String[] files;
-    private ArrayList<String> filesArray;
     private GameListAdapter2 gameListAdapter;
     private AlertDialog deleteGameAlert;
     static{ System.loadLibrary("opencv_java4"); }
@@ -61,39 +33,28 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        listView = findViewById(R.id.listView);
+        ListView listView = findViewById(R.id.listView);
 
-        files = fileList();
+        String[] files = fileList();
 
         files = Arrays.stream(files).filter(s -> s.contains("game")).toArray(String[]::new);
-        filesArray = new ArrayList<>(Arrays.asList(files));
+        ArrayList<String> filesArray = new ArrayList<>(Arrays.asList(files));
         gameListAdapter = new GameListAdapter2(this, filesArray);
 
         listView.setAdapter(gameListAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                showGameDetail(gameListAdapter.titles.get(position));
-            }
-        });
+        listView.setOnItemClickListener((parent, view, position, id) -> showGameDetail(gameListAdapter.titles.get(position)));
         createDeleteAlert();
     }
 
     private void createDeleteAlert(){
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle(R.string.app_name);
-        builder.setMessage(R.string.delete_game_prompt); //TODO vsude vylepsit texty a preklady
-        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.dismiss();
-                deleteGame();
-            }
+        builder.setMessage(R.string.delete_game_prompt);
+        builder.setPositiveButton(R.string.yes, (dialog, id) -> {
+            dialog.dismiss();
+            deleteGame();
         });
-        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.dismiss();
-            }
-        });
+        builder.setNegativeButton(R.string.no, (dialog, id) -> dialog.dismiss());
         deleteGameAlert = builder.create();
     }
 
@@ -116,10 +77,6 @@ public class MainActivity extends AppCompatActivity {
         bundle.putString("filename", filename);
         intent.putExtras(bundle);
         startActivity(intent);
-    }
-
-    public static Context getContext(){
-        return getContext();
     }
 
     public void startRecordingActivity(View view){
@@ -171,18 +128,16 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             LayoutInflater layoutInflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View row = layoutInflater.inflate(R.layout.row, parent, false);
+            assert layoutInflater != null;
+            @SuppressLint("ViewHolder") View row = layoutInflater.inflate(R.layout.row, parent, false);
             TextView mainTitle = row.findViewById(R.id.textViewMain);
             TextView description = row.findViewById(R.id.textViewSub);
             ImageButton deleteBtn = row.findViewById(R.id.deleteGameBtn);
             mainTitle.setText(mTitle.get(position));
             description.setText(mDescription.get(position));
-            deleteBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    deleteGameAlert.show();
-                    gameToBeDeleted = titles.get(position);
-                }
+            deleteBtn.setOnClickListener(v -> {
+                deleteGameAlert.show();
+                gameToBeDeleted = titles.get(position);
             });
             return row;
         }

@@ -4,46 +4,39 @@ import android.content.Context;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static java.lang.Integer.parseInt;
 
 public class GameReader {
-    private FileInputStream file;
     private Context context;
 
     public String getName() {
         return name;
     }
 
-    public String getWhite() {
+    String getWhite() {
         return white;
     }
 
-    public String getBlack() {
+    String getBlack() {
         return black;
     }
 
-    public String getDate() { return date; }
+    String getDate() { return date; }
 
-    public String getResult() {
+    String getResult() {
         return result;
     }
 
-    public String getNotes() {
+    String getNotes() {
         return notes;
     }
 
-    public String getMoves() {
+    String getMoves() {
         return moves;
     }
 
@@ -55,17 +48,17 @@ public class GameReader {
     private String notes;
     private String moves;
 
-    public GameReader(Context c){
+    GameReader(Context c){
         context = c;
     }
 
-    public void readBasicInfo(String filename){
+    void readBasicInfo(String filename){
         if (!filename.contains("game")){
             return;
         }
         String path = context.getFilesDir().getAbsolutePath() + "/" + filename;
 
-        FileInputStream is = null;
+        FileInputStream is;
         try {
             is = new FileInputStream(path);
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -84,7 +77,7 @@ public class GameReader {
 
     }
 
-    public void readFile(String filename){
+    void readFile(String filename){
         if (!filename.contains("game")){
             return;
         }
@@ -110,18 +103,18 @@ public class GameReader {
             String resultLine = br.readLine();
             result = getInfo(resultLine);
 
-            notes = "";
+            StringBuilder notesBuilder = new StringBuilder();
             boolean emptyLine = false;
             while(!emptyLine){
                 String a = br.readLine();
-                System.out.println("haloo " +a);
                 a = a.trim();
                 if (a.isEmpty()){
                     emptyLine = true;
                 } else {
-                    notes += a;
+                    notesBuilder.append(a);
                 }
             }
+            notes = notesBuilder.toString();
 
             StringBuilder builder = new StringBuilder();
             String line;

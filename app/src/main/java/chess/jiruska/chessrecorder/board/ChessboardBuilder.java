@@ -3,17 +3,11 @@ package chess.jiruska.chessrecorder.board;
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
-import android.util.Log;
-import android.widget.Toast;
 
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.Size;
-import org.opencv.imgproc.Imgproc;
-import org.tensorflow.TensorFlow;
 import org.tensorflow.lite.Interpreter;
-import org.tensorflow.lite.Tensor;
-import org.tensorflow.lite.TensorFlowLite;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -22,13 +16,7 @@ import java.io.InputStreamReader;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
-import chess.jiruska.chessrecorder.board.Chessboard;
-import chess.jiruska.chessrecorder.classification.Classification;
-import chess.jiruska.chessrecorder.classification.Classifier;
-import chess.jiruska.chessrecorder.classification.TensorFlowClassifier;
 
 import static org.opencv.imgproc.Imgproc.resize;
 
@@ -36,9 +24,9 @@ public class ChessboardBuilder {
 
     private final int IMG_SIZE = 100;
 
-    private Classifier classifier;
-
     private Interpreter tflite;
+
+    private Interpreter emptyOrNot;
 
     private List<String> labels;
 
@@ -53,17 +41,15 @@ public class ChessboardBuilder {
 
     public Chessboard buildChessboard(ArrayList<Mat> squares){
         Chessboard board = new Chessboard();
-        //System.out.println("buildChessboard ... vlakno id = " + Thread.currentThread().getId());
 
         for(int x = 0; x<squares.size(); x++){
             Mat testSquare = squares.get(x).clone();
             resize(testSquare, testSquare, new Size(IMG_SIZE,IMG_SIZE));
             Mat p = new Mat(IMG_SIZE,IMG_SIZE,CvType.CV_32FC3);
-            testSquare.convertTo(p, CvType.CV_32FC3, 1/255.0); //with or without scaling, try both
+            testSquare.convertTo(p, CvType.CV_32FC3, 1/255.0);
 
             float[] pixels = new float[IMG_SIZE*IMG_SIZE];
             p.get(0,0, pixels);
-            //System.out.println("-------------------------------------------------");
             float[][][][] pixels2D = new float[1][IMG_SIZE][IMG_SIZE][1];
 
             for(int i=0; i<IMG_SIZE;i++) {
@@ -72,22 +58,21 @@ public class ChessboardBuilder {
                 }
             }
 
-            float[][] output = new float[1][13];
-            //float[][] output = new float[1][2];
-            tflite.run(pixels2D, output);
+            float[][] outputFirst = new float[1][2];
+            float[][] outputSecond = new float[1][13];
 
-            //System.out.println(Arrays.deepToString(output));
+            emptyOrNot.run(pixels2D, outputFirst);
+            int resF = getIndexOfLargest(outputFirst[0]);
+            if (resF == 1){
+                tflite.run(pixels2D, outputSecond);
 
-            int res = getIndexOfLargest(output[0]);
-            String piece_type = labels.get(res);
-            //System.out.println(res);
-            board.setPosition(7-x/8, 7-x%8, Integer.parseInt(piece_type));
-            //System.out.println(labels.get(res));
+                int res = getIndexOfLargest(outputSecond[0]);
+                String piece_type = labels.get(res);
+                board.setPosition(7-x/8, 7-x%8, Integer.parseInt(piece_type));
+            } else {
+                board.setPosition(7-x/8, 7-x%8, Integer.parseInt("6"));
+            }
         }
-
-        //TODO kontrola spravnosti - porovnani s minulym stavem a upravy
-
-        //System.out.println(board);
 
         return board;
     }
@@ -116,8 +101,8 @@ public class ChessboardBuilder {
         return labels;
     }
 
-    private MappedByteBuffer loadModelFile(Context c) throws IOException {
-        AssetFileDescriptor fileDescriptor = c.getAssets().openFd("sb2-net.tflite");
+    private MappedByteBuffer loadModelFile(Context c, String filename) throws IOException {
+        AssetFileDescriptor fileDescriptor = c.getAssets().openFd(filename);
         FileInputStream inputStream = new FileInputStream(fileDescriptor.getFileDescriptor());
         FileChannel fileChannel = inputStream.getChannel();
         long startOffset = fileDescriptor.getStartOffset();
@@ -126,18 +111,15 @@ public class ChessboardBuilder {
     }
 
     private void loadModel(Context c){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    tflite = new Interpreter(loadModelFile(c));
-                    System.out.println("model loaded!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        new Thread(() -> {
+            try {
+                tflite = new Interpreter(loadModelFile(c, "sb-final.tflite"));
+                emptyOrNot = new Interpreter(loadModelFile(c, "emptyNotempty.tflite"));
+                System.out.println("models loaded!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
-
         ).start();
     }
 }

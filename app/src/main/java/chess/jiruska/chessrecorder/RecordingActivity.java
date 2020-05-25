@@ -138,7 +138,6 @@ public class RecordingActivity extends AppCompatActivity {
             };
     private CaptureRequest.Builder captureRequestBuilder;
 
-    private Size imageSize;
     private ImageReader imageReader;
     private final ImageReader.OnImageAvailableListener onImageAvailableListener = new
             ImageReader.OnImageAvailableListener() {
@@ -179,18 +178,15 @@ public class RecordingActivity extends AppCompatActivity {
         textView = findViewById(R.id.textView);
         textureView = findViewById(R.id.textureView);
         recordButton = findViewById((R.id.recordButton));
-        recordButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(isRecording){
-                    isRecording = false;
-                    recordButton.setImageResource(R.drawable.rec_btn_start);
-                    stopRecording();
-                } else {
-                    isRecording = true;
-                    recordButton.setImageResource(R.drawable.rec_btn_stop);
-                    startRecording();
-                }
+        recordButton.setOnClickListener(v -> {
+            if(isRecording){
+                isRecording = false;
+                recordButton.setImageResource(R.drawable.rec_btn_start);
+                stopRecording();
+            } else {
+                isRecording = true;
+                recordButton.setImageResource(R.drawable.rec_btn_stop);
+                startRecording();
             }
         });
     }
@@ -226,8 +222,6 @@ public class RecordingActivity extends AppCompatActivity {
         super.onPause();
     }
 
-    private int totalRotation;
-
     private void setupCamera(int width, int height) {
         CameraManager cameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
         System.out.println("camera setup");
@@ -239,7 +233,7 @@ public class RecordingActivity extends AppCompatActivity {
                 }
                 StreamConfigurationMap map = cameraCharacteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
                 int deviceOrientation = getWindowManager().getDefaultDisplay().getRotation();
-                totalRotation = sensorToDeviceRotation(cameraCharacteristics, deviceOrientation);
+                int totalRotation = sensorToDeviceRotation(cameraCharacteristics, deviceOrientation);
                 boolean swapRotation = totalRotation == 90 || totalRotation == 270;
                 int rotatedWidth = width;
                 int rotatedHeight = height;
@@ -248,8 +242,9 @@ public class RecordingActivity extends AppCompatActivity {
                     rotatedHeight = width;
                 }
 
+                assert map != null;
                 previewSize = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class), rotatedWidth, rotatedHeight);
-                imageSize = chooseOptimalSize(map.getOutputSizes(ImageFormat.JPEG), rotatedWidth, rotatedHeight);
+                Size imageSize = chooseOptimalSize(map.getOutputSizes(ImageFormat.JPEG), rotatedWidth, rotatedHeight);
                 configureTransform(textureView.getWidth(), textureView.getHeight());
                 imageReader = ImageReader.newInstance(imageSize.getWidth(), imageSize.getHeight(), ImageFormat.JPEG, 1);
                 imageReader.setOnImageAvailableListener(onImageAvailableListener, backgroundHandler);
@@ -295,6 +290,7 @@ public class RecordingActivity extends AppCompatActivity {
                 requestPermissions(new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_RESULT);
                 return;
             }
+            assert cameraManager != null;
             cameraManager.openCamera(cameraId, cameraDeviceStateCallback, backgroundHandler);
 
         } catch (CameraAccessException e) {
@@ -403,7 +399,6 @@ public class RecordingActivity extends AppCompatActivity {
     int delay = 1000;
     private RecorderManager manager;
     private GameWriter writer;
-    private boolean changedColor = false;
 
     private void startRecording(){
         manager = new RecorderManager(getApplicationContext());
@@ -416,21 +411,20 @@ public class RecordingActivity extends AppCompatActivity {
                 if (manager.isBoardDetected()){
                     if (templateColor == COLOR_RED){
                         templateColor = COLOR_GREEN;
-                        changedColor = true;
                         templateWindow.setImageResource(R.drawable.template_green);
-                        delay = 5000;
+                        delay = 10000;
                     }
                     handler.postDelayed(this, delay);
                 } else {
                     if (templateColor == COLOR_GREEN){
                         templateColor = COLOR_RED;
                         templateWindow.setImageResource(R.drawable.template_red);
-                        delay = 1000;
+                        delay = 2000;
                     }
                     handler.postDelayed(this, delay);
                 }
             }
-        },1);
+        },1000);
     }
 
     private void stopRecording(){
@@ -447,7 +441,7 @@ public class RecordingActivity extends AppCompatActivity {
 
         private final Image image;
         private RecorderManager manager;
-        public ImageProcessor(Image img, RecorderManager m){
+        ImageProcessor(Image img, RecorderManager m){
             image = img;
             manager = m;
         }
@@ -456,17 +450,12 @@ public class RecordingActivity extends AppCompatActivity {
             ByteBuffer byteBuffer = image.getPlanes()[0].getBuffer();
             byte[] bytes = new byte[byteBuffer.remaining()];
             byteBuffer.get(bytes);
-            //System.out.println("Vola se manager newState");
-            //System.out.println("aaa ... vlakno id = " + Thread.currentThread().getId());
-            AsyncTask.execute(new Runnable() {
-                @Override
-                public void run() {
-                    manager.newState(bytes);
-                    String move = manager.getMove();
-                    if (!move.equals("")){
-                        textView.append("\n"+move);
-                        writer.writeMove(move);
-                    }
+            AsyncTask.execute(() -> {
+                manager.newState(bytes);
+                String move = manager.getMove();
+                if (!move.equals("")){
+                    textView.append("\n"+move);
+                    writer.writeMove(move);
                 }
             });
             image.close();

@@ -1,45 +1,36 @@
 package chess.jiruska.chessrecorder;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.os.Parcelable;
 import android.util.Log;
-
-import org.opencv.android.Utils;
-import org.opencv.core.CvException;
-import org.opencv.core.Mat;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
-
-import static android.content.ContentValues.TAG;
 
 public class GameWriter implements Serializable {
 
     private FileOutputStream file;
     private String moves;
-    private UUID identifier;
     private Context context;
     private int currentMoveNumber;
 
     public GameWriter(Context context){
         moves = "";
+        this.context = context;
         currentMoveNumber = 2;
     }
 
-    public GameWriter(Context context, String moves){
+    GameWriter(Context context, String moves){
         this.context = context;
         this.moves = moves;
     }
 
-    public void writeMove(String move){
+    void writeMove(String move){
         if (currentMoveNumber % 2 == 0){
             moves = moves.concat(" " + currentMoveNumber/2 + ". " + move);
         } else {
@@ -49,16 +40,15 @@ public class GameWriter implements Serializable {
         Log.d("writer", "move " + move + " written");
     }
 
-    public void saveGame(String title, String white, String black, String winner, String notes){
-        identifier = UUID.randomUUID();
+    void saveGame(String title, String white, String black, String winner, String notes){
+        UUID identifier = UUID.randomUUID();
         try {
-            file = context.openFileOutput("game"+identifier.toString()+".chg", Context.MODE_PRIVATE | Context.MODE_APPEND);
+            file = context.openFileOutput("game"+ identifier.toString()+".chg", Context.MODE_PRIVATE | Context.MODE_APPEND);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
         String date = new SimpleDateFormat("yyyy.MM.dd", Locale.getDefault()).format(new Date());
-        date = "1.1.2020";
         try {
             file.write(("[Event \"" + title + "\"]\n" +
                     "[Date \"" + date + "\"]\n" +
@@ -73,7 +63,7 @@ public class GameWriter implements Serializable {
         }
     }
 
-    public static void saveImage(Context context, byte[] img){
+    /*public static void saveImage(Context context, byte[] img){
 
         try {
             FileOutputStream iFile = context.openFileOutput("image"+UUID.randomUUID().toString()+".jpg", Context.MODE_PRIVATE | Context.MODE_APPEND);
@@ -81,45 +71,43 @@ public class GameWriter implements Serializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
-    public static void saveOpenCVImage(Context context, Mat subimg, String text){
+    /*public static void saveOpenCVImage(Context context, Mat subimg, String text){
         Bitmap bmp = null;
         try {
             bmp = Bitmap.createBitmap(subimg.cols(), subimg.rows(), Bitmap.Config.ARGB_8888);
             Utils.matToBitmap(subimg, bmp);
         } catch (CvException e) {
-            Log.d(TAG, e.getMessage());
+            Log.d(TAG, Objects.requireNonNull(e.getMessage()));
         }
 
         subimg.release();
         FileOutputStream out = null;
 
-        if (true) {
+        try {
+            out = context.openFileOutput(text+"image"+UUID.randomUUID().toString()+".jpg", Context.MODE_PRIVATE | Context.MODE_APPEND);
+            assert bmp != null;
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, out); // bmp is your Bitmap instance
+            // PNG is a lossless format, the compression factor (100) is ignored
 
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d(TAG, Objects.requireNonNull(e.getMessage()));
+        } finally {
             try {
-                out = context.openFileOutput(text+"image"+UUID.randomUUID().toString()+".jpg", Context.MODE_PRIVATE | Context.MODE_APPEND);
-                bmp.compress(Bitmap.CompressFormat.PNG, 100, out); // bmp is your Bitmap instance
-                // PNG is a lossless format, the compression factor (100) is ignored
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.d(TAG, e.getMessage());
-            } finally {
-                try {
-                    if (out != null) {
-                        out.close();
-                        Log.d(TAG, "OK!!");
-                    }
-                } catch (IOException e) {
-                    Log.d(TAG, e.getMessage() + "Error");
-                    e.printStackTrace();
+                if (out != null) {
+                    out.close();
+                    Log.d(TAG, "OK!!");
                 }
+            } catch (IOException e) {
+                Log.d(TAG, e.getMessage() + "Error");
+                e.printStackTrace();
             }
         }
-    }
+    }*/
 
-    public String getMoves(){
+    String getMoves(){
         return moves;
     }
 }
