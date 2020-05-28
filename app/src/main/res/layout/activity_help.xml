@@ -13,6 +13,8 @@
         android:layout_marginTop="1dp"
         android:layout_marginEnd="1dp"
         android:layout_marginBottom="1dp"
+        android:paddingHorizontal="10dp"
+        android:paddingTop="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -111,6 +113,16 @@
                     android:contentDescription="@string/picture"
                     app:srcCompat="@drawable/template_red" />
             </LinearLayout>
+
+            <Button
+                android:id="@+id/rec_from_help"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:background="@drawable/record_btn_back"
+                android:hapticFeedbackEnabled="false"
+                android:onClick="startRecording"
+                android:text="@string/btn_start_text" />
 
         </LinearLayout>
     </ScrollView>

@@ -13,6 +13,9 @@ android {
     }
     buildTypes {
         release {
+            ndk {
+                abiFilters "armeabi-v7a", "armeabi" // includes ARM SO files only, so no x86 SO file
+            }
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -35,6 +38,5 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     implementation project(path: ':OpenCV')
-    implementation 'org.tensorflow:tensorflow-android:1.13.1'
     implementation 'org.tensorflow:tensorflow-lite:+'
 }

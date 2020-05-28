@@ -41,6 +41,9 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<String> filesArray = new ArrayList<>(Arrays.asList(files));
         gameListAdapter = new GameListAdapter2(this, filesArray);
 
+        TextView emptyText = findViewById(R.id.empty);
+        listView.setEmptyView(emptyText);
+
         listView.setAdapter(gameListAdapter);
         listView.setOnItemClickListener((parent, view, position, id) -> showGameDetail(gameListAdapter.titles.get(position)));
         createDeleteAlert();

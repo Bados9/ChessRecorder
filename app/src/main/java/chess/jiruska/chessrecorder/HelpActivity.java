@@ -3,8 +3,10 @@ package chess.jiruska.chessrecorder;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 public class HelpActivity extends AppCompatActivity {
 
@@ -25,5 +27,11 @@ public class HelpActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void startRecording(View view){
+        Intent intent = new Intent(this, RecordingActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

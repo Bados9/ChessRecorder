@@ -19,7 +19,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:contentDescription="@string/picture"
-            android:src="@mipmap/ic_launcher"
+            android:src="@mipmap/app_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -27,7 +27,7 @@
         <TextView
             android:id="@+id/textViewMain"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_marginStart="275dp"
             android:layout_marginBottom="5dp"
@@ -43,7 +43,7 @@
         <TextView
             android:id="@+id/textViewSub"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:textColor="#a9a9a9"

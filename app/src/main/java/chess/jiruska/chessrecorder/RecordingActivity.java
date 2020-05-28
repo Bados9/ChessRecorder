@@ -435,6 +435,7 @@ public class RecordingActivity extends AppCompatActivity {
         bundle.putString("moves", moves);
         intent.putExtras(bundle);
         startActivity(intent);
+        finish();
     }
 
     private class ImageProcessor implements Runnable {
