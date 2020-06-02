@@ -6,7 +6,7 @@
     <string name="camera_feed_alt_text">Obrázek z kamery</string>
     <string name="draw">Remíza</string>
     <string name="unknown">Neznámý</string>
-    <string name="winner">Vítěz</string>
+    <string name="winner">Vítěz:</string>
     <string name="notes">Poznámky</string>
     <string name="pgn">Šachová notace PGN</string>
     <string name="game_title">Název hry</string>
@@ -20,26 +20,17 @@
     <string name="help_title_main">Užívání aplikace</string>
     <string name="delete">Odstranit</string>
     <string name="delete_game_prompt">Opravdu chcete odstranit tento záznam?</string>
+    <string name="cancel_saving_prompt">Opravdu chcete přerušit ukládání hry? Záznam bude vymazán.</string>
     <string name="yes">Ano</string>
     <string name="no">Ne</string>
     <string name="game_deleted">Záznam úspěšně vymazán.</string>
     <string name="game_delete_error">Při odstraňování hry došlo k chybě.</string>
+    <string name="copied">Notace byla zkopírována do schránky zařízení.</string>
+    <string name="copy_to_clip">Kopírovat notaci</string>
     <string name="help_title_recording">Jak nahrávat</string>
     <string name="help_title_position">Pozice zařízení</string>
     <string name="help_title_detection">Detekce šachovnice</string>
-    <string name="help_text_recording">Nejdřív udělejte tohleto a pak támhleto.</string>
-    <string name="help_text_position">Pozice zařízení musí být přibližně taková a maková.</string>
-    <string name="help_text_detection">Nejprve je to červené (obrázek nalevo), ale pak to zezelená (obrázek napravo).</string>
-    <string name="some_text">
-        <![CDATA[
-
-        aaaaaaaaaaaaaaaaaaajfasdlkfjaweoifjweopgijwreoiprbjweropibjeroipbjopbijerbopfejboperbjrpeoibjreopibjropibjwropibjwrpoibqjwr
-        aaaaaaaaaaaaaaaaaaajfasdlkfjaweoifjweopgijwreoiprbjweropibjeroipbjopbijerbopfejboperbjrpeoibjreopibjropibjwropibjwrpoibqjwr
-        aaaaaaaaaaaaaaaaaaajfasdlkfjaweoifjweopgijwreoiprbjweropibjeroipbjopbijerbopfejboperbjrpeoibjreopibjropibjwropibjwrpoibqjwr
-        aaaaaaaaaaaaaaaaaaajfasdlkfjaweoifjweopgijwreoiprbjweropibjeroipbjopbijerbopfejboperbjrpeoibjreopibjropibjwropibjwrpoibqjwr
-        aaaaaaaaaaaaaaaaaaajfasdlkfjaweoifjweopgijwreoiprbjweropibjeroipbjopbijerbopfejboperbjrpeoibjreopibjropibjwropibjwrpoibqjwr
-        aaaaaaaaaaaaaaaaaaajfasdlkfjaweoifjweopgijwreoiprbjweropibjeroipbjopbijerbopfejboperbjrpeoibjreopibjropibjwropibjwrpoibqjwr
-
-        ]]>
-    </string>
+    <string name="help_text_recording">Po přepnutí na obrazovku nahrávání je nutno nahrávání ještě spustit tlačítkem na pravé straně. Pro ukončení nahrávání stiskněte toto tlačítko znovu.</string>
+    <string name="help_text_position">Pro správné nahrávání je nutno umístit zařízení do určité pozice. Pozice má určitou toleranci a je přibližně jako na obrázku.</string>
+    <string name="help_text_detection">Pokud šachovnice nebude rozpoznána, bude tvar na obrazovce svítit červeně. Správné rozpoznání je indikováno změnou na zelenou barvu.</string>
 </resources>

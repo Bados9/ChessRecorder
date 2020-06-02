@@ -59,7 +59,7 @@ public class ChessboardBuilder {
             }
 
             float[][] outputFirst = new float[1][2];
-            float[][] outputSecond = new float[1][13];
+            float[][] outputSecond = new float[1][12];
 
             emptyOrNot.run(pixels2D, outputFirst);
             int resF = getIndexOfLargest(outputFirst[0]);
@@ -113,8 +113,8 @@ public class ChessboardBuilder {
     private void loadModel(Context c){
         new Thread(() -> {
             try {
-                tflite = new Interpreter(loadModelFile(c, "sb-final.tflite"));
-                emptyOrNot = new Interpreter(loadModelFile(c, "emptyNotempty.tflite"));
+                tflite = new Interpreter(loadModelFile(c, "of-final.tflite"));
+                emptyOrNot = new Interpreter(loadModelFile(c, "emptyNotempty-2.tflite"));
                 System.out.println("models loaded!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             } catch (IOException e) {
                 e.printStackTrace();

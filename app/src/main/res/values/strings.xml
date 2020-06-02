@@ -6,7 +6,7 @@
     <string name="camera_feed_alt_text">Picture from the camera</string>
     <string name="draw">Draw</string>
     <string name="unknown">Unknown</string>
-    <string name="winner">Winner</string>
+    <string name="winner">Winner:</string>
     <string name="notes">Notes</string>
     <string name="pgn">Portable Game Notation (PGN)</string>
     <string name="game_title">Game title</string>
@@ -19,28 +19,19 @@
     <string name="picture">Image</string>
     <string name="delete">Delete</string>
     <string name="delete_game_prompt">Are you sure you want to delete this recording?</string>
+    <string name="cancel_saving_prompt">Are you sure you want to cancel saving? Unsaved recording will be deleted.</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="game_deleted">Recording succesfully deleted.</string>
+    <string name="game_deleted">Recording successfully deleted.</string>
     <string name="game_delete_error">Error while deleting recording.</string>
+    <string name="copied">Notation was copied to clipboard</string>
+    <string name="copy_to_clip">Copy notation</string>
     <string name="help_title_main">Application usage</string>
     <string name="help_title_recording">How to record</string>
     <string name="help_title_position">Device position</string>
     <string name="help_title_detection">Chessboard detection</string>
-    <string name="help_text_recording"></string>
-    <string name="help_text_position"></string>
-    <string name="help_text_detection"></string>
-    <string name="some_text">
-        <![CDATA[
-
-        aaaaaaaaaaaaaaaaaaajfasdlkfjaweoifjweopgijwreoiprbjweropibjeroipbjopbijerbopfejboperbjrpeoibjreopibjropibjwropibjwrpoibqjwr
-        aaaaaaaaaaddddaaaaaaaaajfasdlkfjaweoifjweopgijwreoiprbjweropibjeroipbjopbijerbopfejboperbjrpeoibjreopibjropibjwropibjwrpoibqjwr
-        aaaaaaaaaaaaaaaaaaajfasdlkfjaweoifjweopgijwreoiprbjweropibjeroipbjopbijerbopfejboperbjrpeoibjreopibjropibjwropibjwrpoibqjwr
-        aaaaaaaaaaaaaaaaaaajfasdlkfjaweoifjweopgijwreoiprbjweropibjeroipbjopbijerbopfejboperbjrpeoibjreopibjropibjwropibjwrpoibqjwr
-        aaaaaaaaaaaaaaaaaaajfasdlkfjaweoifjweopgijwreoiprbjweropibjeroipbjopbijerbopfejboperbjrpeoibjreopibjropibjwropibjwrpoibqjwr
-        aaaaaaaaaaaaaaaaaaajfasdlkfjaweoifjweopgijwreoiprbjweropibjeroipbjopbijerbopfejboperbjrpeoibjreopibjropibjwropibjwrpoibqjwr
-
-        ]]>
-    </string>
+    <string name="help_text_recording">When on recording page, make sure you click button on right side to start recording. When you want to stop recording, use the same button.</string>
+    <string name="help_text_position">For accurate recording, you will have to place your device to specific position shown on picture below. There is some tolerance, but try to be precise.</string>
+    <string name="help_text_detection">When the chessboard is not recognized, shape on screen will be red. Once the chessboard is recognized, it changes its color to green. </string>
 
 </resources>

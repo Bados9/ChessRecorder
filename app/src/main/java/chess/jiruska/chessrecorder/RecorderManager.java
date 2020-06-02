@@ -35,7 +35,7 @@ class RecorderManager extends Thread{
         currentState = recognizer.processFrame(mat);
         if (currentState != null){
             boardDetected = true;
-            //Log.d("newState", currentState.toString());
+            Log.d("newState", currentState.toString());
         } else {
             boardDetected = false;
         }

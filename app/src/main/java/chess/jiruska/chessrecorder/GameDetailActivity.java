@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -110,10 +111,10 @@ public class GameDetailActivity extends AppCompatActivity {
     }
 
     public void copyToClipboard(View view){
-        String moves = reader.getMoves();
-        System.out.println(moves);
+        String moves = readFileData(file);
         ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText("PGN", moves);
         clipboard.setPrimaryClip(clip);
+        Toast.makeText(getApplicationContext(), R.string.copied, Toast.LENGTH_SHORT).show();
     }
 }

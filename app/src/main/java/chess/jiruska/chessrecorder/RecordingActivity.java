@@ -122,8 +122,6 @@ public class RecordingActivity extends AppCompatActivity {
                             Integer afState = captureResult.get(CaptureResult.CONTROL_AF_STATE);
                             if(afState == CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED ||
                                     afState == CaptureResult.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED) {
-                                Toast.makeText(getApplicationContext(), "AF Locked..", Toast.LENGTH_SHORT).show();
-                                Log.d("LOCKING", "SUCCESFULL");
                                 captureImage();
                             }
                             break;
@@ -455,7 +453,7 @@ public class RecordingActivity extends AppCompatActivity {
                 manager.newState(bytes);
                 String move = manager.getMove();
                 if (!move.equals("")){
-                    textView.append("\n"+move);
+                    runOnUiThread(() -> textView.append("\n" + move));
                     writer.writeMove(move);
                 }
             });

@@ -1,5 +1,6 @@
 package chess.jiruska.chessrecorder;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -7,6 +8,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -23,6 +25,8 @@ public class GameSaveActivity extends AppCompatActivity {
     private EditText black;
     private Spinner winner;
     private EditText notes;
+    private AlertDialog cancelSavingAlert;
+    private Button cancelSavingBtn;
     ArrayAdapter<String> spinnerAdapter;
     String oldSpinnerTextWhite;
     String oldSpinnerTextBlack;
@@ -53,6 +57,10 @@ public class GameSaveActivity extends AppCompatActivity {
         spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, list);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         winner.setAdapter(spinnerAdapter);
+
+        createCancelSavingAlert();
+        cancelSavingBtn = findViewById(R.id.cancelButton);
+        cancelSavingBtn.setOnClickListener(v -> cancelSavingAlert.show());
 
         white.addTextChangedListener(new TextWatcher() {
             @Override
@@ -110,9 +118,21 @@ public class GameSaveActivity extends AppCompatActivity {
         finish();
     }
 
-    public void cancelSaving(View view){
+    public void cancelSaving(){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    private void createCancelSavingAlert(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(GameSaveActivity.this);
+        builder.setTitle(R.string.app_name);
+        builder.setMessage(R.string.cancel_saving_prompt);
+        builder.setPositiveButton(R.string.yes, (dialog, id) -> {
+            dialog.dismiss();
+            cancelSaving();
+        });
+        builder.setNegativeButton(R.string.no, (dialog, id) -> dialog.dismiss());
+        cancelSavingAlert = builder.create();
     }
 }

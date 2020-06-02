@@ -25,6 +25,7 @@
             android:onClick="startRecordingActivity"
             android:text="@string/btn_start_text"
             android:textAllCaps="false"
+            android:textColor="@color/textColor"
             android:textSize="24sp" />
 
         <ImageButton
